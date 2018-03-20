@@ -24,7 +24,7 @@ import UpdateProfileComponent from '../components/UpdateProfile';
 import MemberContainer from '../../containers/Member';
 import ProfileComponent from '../components/Profile';
 
-import AboutComponent from '../components/About';
+import BlenderComponent from '../components/Blender';
 
 const Index = (
   <Stack>
@@ -36,22 +36,20 @@ const Index = (
         showLabel={false}
         {...DefaultProps.tabProps}
       >
+      <Stack
+        key="recipes"
+        icon={() => <Icon name="bookmarks" {...DefaultProps.icons} />}
+        {...DefaultProps.navbarProps}
+      >
+        <Scene key="recipes" hideNavBar component={RecipesContainer} Layout={RecipesComponent} />
+      </Stack>
         <Stack
-          key="home"
-          title={AppConfig.appName.toUpperCase()}
-          icon={() => <Icon name="planet" {...DefaultProps.icons} />}
+          key="blender"
+          title="Blender"
+          icon={() => <Icon name="ios-aperture-outline" {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="home" component={AboutComponent} />
-        </Stack>
-
-        <Stack
-          key="recipes"
-          title="RECIPES"
-          icon={() => <Icon name="book" {...DefaultProps.icons} />}
-          {...DefaultProps.navbarProps}
-        >
-          <Scene key="recipes" component={RecipesContainer} Layout={RecipesComponent} />
+          <Scene key="home" component={BlenderComponent} />
         </Stack>
 
         <Stack
@@ -102,6 +100,8 @@ const Index = (
       clone
       key="recipe"
       title="RECIPE"
+      rightTitle="Edit"
+      onRight={()=>{}}
       {...DefaultProps.navbarProps}
       component={RecipesContainer}
       Layout={RecipeViewComponent}

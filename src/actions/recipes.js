@@ -1,4 +1,9 @@
 import { Firebase, FirebaseRef } from '../lib/firebase';
+import axios from 'axios';
+
+const url = "https://mcsdem012918-mcsdem012918.mobileenv.us2.oraclecloud.com:443";
+const aToken = "Basic YW15Lm1hcmxpbjpNb2JpbGUxKg==";
+const backID = "4c02156e-27fa-4da6-a3fa-9f0dd3063b37";
 
 /**
   * Get this User's Favourite Recipes
@@ -73,7 +78,7 @@ export function setError(message) {
 
 /**
   * Get Recipes
-  */
+  
 export function getRecipes() {
   if (Firebase === null) return () => new Promise(resolve => resolve());
 
@@ -86,4 +91,46 @@ export function getRecipes() {
         data: recipes,
       }));
     })).catch(e => console.log(e));
+}
+*/
+
+
+
+export function getRecipes() {
+    let recipesUrl = url + "/mobile/custom/VitamixCustomAPI/recipeData";
+    let auth = {
+      headers: {
+        "Authorization": aToken,
+        "Oracle-Mobile-Backend-ID": backID,
+        'Content-Type': 'application/json'
+      }
+    };
+    var c = 0;
+    return dispatch => new Promise(resolve => axios
+      .get(recipesUrl, auth)
+      .then(function (response) {
+        c++;
+        var recipes = response.data((recipe)=>{
+          newRecipe = {
+            author:"", 
+            body:recipe.description,
+            category:recipe.name,
+            id:c,
+            title: recipe.title,
+            image: recipe.image_url,
+            ingredients:recipe.ingredients.split("#"),
+            method:recipe.instruction.split("#")
+          };
+        });
+        
+        return resolve(dispatch({
+          type: 'RECIPES_REPLACE',
+          data: recipes,
+        }));
+      })
+      .catch(function (error) {
+        console.log(error);
+        return "Something went wrong.";
+      });
+    );
 }

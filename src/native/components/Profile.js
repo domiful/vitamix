@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import { Container, Content, List, ListItem, Body, Left, Text, Icon } from 'native-base';
+import { Container, Content, List, ListItem, Body, Left, Text, Icon, H3 } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Header from './Header';
+import Spacer from './Spacer';
+
 
 const Profile = ({ member, logout }) => (
   <Container>
@@ -39,17 +41,42 @@ const Profile = ({ member, logout }) => (
           <View>
             <Content padder>
               <Header
-                title="Hi there,"
-                content="Please login to gain extra access"
+                title="Hi there, user"
+                content="where profile photo and info will go"
               />
             </Content>
 
+            <H3 style={{ paddingLeft: 15 }}>Data Reporting</H3>
             <ListItem onPress={Actions.login} icon>
+              <Body>
+                <Text>Reports</Text>
+              </Body>
+            </ListItem>
+            <ListItem onPress={Actions.login} icon>
+              <Body>
+                <Text>Graphs</Text>
+              </Body>
+            </ListItem>
+            <ListItem onPress={Actions.signUp} icon>
+              <Body>
+                <Text>Maintenance</Text>
+              </Body>
+            </ListItem>
+            <ListItem onPress={Actions.forgotPassword} icon>
+              <Body>
+                <Text>Data</Text>
+              </Body>
+            </ListItem>
+
+            <Spacer size={15} />
+            <H3 style={{ paddingLeft: 15 }}>Account Settings</H3>
+
+            <ListItem onPress={Actions.signUp} icon>
               <Left>
-                <Icon name="power" />
+                <Icon name="add-circle" />
               </Left>
               <Body>
-                <Text>Login</Text>
+                <Text>Add Friend</Text>
               </Body>
             </ListItem>
             <ListItem onPress={Actions.signUp} icon>
@@ -57,7 +84,7 @@ const Profile = ({ member, logout }) => (
                 <Icon name="add-circle" />
               </Left>
               <Body>
-                <Text>Sign Up</Text>
+                <Text>Legal</Text>
               </Body>
             </ListItem>
             <ListItem onPress={Actions.forgotPassword} icon>
@@ -65,7 +92,15 @@ const Profile = ({ member, logout }) => (
                 <Icon name="help-buoy" />
               </Left>
               <Body>
-                <Text>Forgot Password</Text>
+                <Text>Support</Text>
+              </Body>
+            </ListItem>
+            <ListItem onPress={Actions.login} icon>
+              <Left>
+                <Icon name="power" />
+              </Left>
+              <Body>
+                <Text>Logout</Text>
               </Body>
             </ListItem>
           </View>

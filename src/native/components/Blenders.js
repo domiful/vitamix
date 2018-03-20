@@ -9,10 +9,10 @@ import Header from './Header';
 import Spacer from './Spacer';
 
 
-const RecipeListing = ({
+const BlenderListing = ({
   error,
   loading,
-  recipes,
+  blenders,
   reFetch,
 }) => {
   // Loading
@@ -22,20 +22,20 @@ const RecipeListing = ({
   if (error) return <Error content={error} />;
 
   const keyExtractor = item => item.id;
-  console.log(recipes);
-  const onPress = item => Actions.recipe({ match: { params: { id: String(item.id) } } });
+  console.log(blenders);
+  const onPress = item => Actions.blender({ match: { params: { id: String(item.id) } } });
 
   return (
     <Container>
       <Content padder>
         <Header
-          title="Recipes"
-          content="__________________________________________________This is where the search is supposed to go. _________________________________________________"
+          title="Blenders"
+          content="__________________________________________________This is where the search is going to go. _________________________________________________"
         />
 
         <FlatList
           numColumns={2}
-          data={recipes}
+          data={blenders}
           renderItem={({ item }) => (
             <Card transparent style={{ paddingHorizontal: 4 }}>
               <CardItem cardBody>
@@ -54,7 +54,7 @@ const RecipeListing = ({
               <CardItem cardBody>
                 <Body>
                   <Spacer size={10} />
-                  <Text style={{ fontWeight: '800' }}>{item.title}</Text>
+                  <Text style={{ fontWeight: '800' }}>Vitamix Model</Text>
                   <Spacer size={15} />
                   <Spacer size={5} />
                 </Body>
@@ -76,28 +76,16 @@ const RecipeListing = ({
   );
 };
 
-RecipeListing.propTypes = {
+BlenderListing.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool.isRequired,
-  recipes: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  blenders: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   reFetch: PropTypes.func,
 };
 
-RecipeListing.defaultProps = {
+BlenderListing.defaultProps = {
   error: null,
   reFetch: null,
 };
 
-export default RecipeListing;
-
-/*
-  import SearchBar from 'react-native-search-bar'
-
-  <SearchBar
-              ref='searchBar'
-              placeholder='Search'
-              onChangeText={()=>{}}
-              onSearchButtonPress={()=>{}}
-              onCancelButtonPress={()=>{}}
-            />
-*/
+export default BlenderListing;

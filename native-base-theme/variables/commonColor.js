@@ -112,7 +112,7 @@ export default {
   cardDefaultBg: '#fff',
 
   // Color
-  brandPrimary: '#473BE7',
+  brandPrimary: '#CF0026',
   brandInfo: '#62B1F6',
   brandSuccess: '#5cb85c',
   brandDanger: '#d9534f',
@@ -141,10 +141,10 @@ export default {
   footerPaddingBottom: isIphoneX ? 34 : 0,
 
   // FooterTab
-  tabBarTextColor: '#8bb3f4',
+  tabBarTextColor: '#fff',
   tabBarTextSize: platform === 'ios' ? 14 : 11,
   activeTab: platform === 'ios' ? '#007aff' : '#fff',
-  sTabBarActiveTextColor: '#007aff',
+  sTabBarActiveTextColor: '#fff',
   tabBarActiveTextColor: '#fff',
   tabActiveBgColor: platform === 'ios' ? '#1569f4' : undefined,
 
@@ -172,7 +172,7 @@ export default {
   get statusBarColor() {
     return color(this.toolbarDefaultBg)
       .darken(0.2)
-      .hexString();
+      .hex();
   },
 
   // Icon
@@ -241,7 +241,7 @@ export default {
   get radioSelectedColor() {
     return color(this.radioColor)
       .darken(0.2)
-      .hexString();
+      .hex();
   },
 
   // Spinner
@@ -275,7 +275,7 @@ export default {
   get darkenHeader() {
     return color(this.tabBgColor)
       .darken(0.03)
-      .hexString();
+      .hex();
   },
 
   dropdownBg: '#000',
