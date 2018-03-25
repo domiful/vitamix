@@ -31,7 +31,7 @@ class RecipeListing extends Component {
     */
   fetchRecipes = () => {
     return this.props.getRecipes()
-      //.then(() => this.props.getMeals())
+      .then(() => this.props.getMeals())
       .catch((err) => {
         console.log(`Error: ${err}`);
         return this.props.setError(err);

@@ -24,7 +24,10 @@ import UpdateProfileComponent from '../components/UpdateProfile';
 import MemberContainer from '../../containers/Member';
 import ProfileComponent from '../components/Profile';
 
-import BlenderComponent from '../components/Blender';
+import BlendersContainer from '../../containers/Blenders';
+import BlendersComponent from '../components/Blenders';
+import BlenderViewComponent from '../components/Blender';
+
 
 const Index = (
   <Stack>
@@ -33,29 +36,31 @@ const Index = (
         key="tabbar"
         swipeEnabled
         type="replace"
-        showLabel={false}
+        showLabel={true}
         {...DefaultProps.tabProps}
       >
       <Stack
         key="recipes"
-        icon={() => <Icon name="bookmarks" {...DefaultProps.icons} />}
+        title="Recipes"
+        icon={() => <Icon name="restaurant" {...DefaultProps.icons} />}
         {...DefaultProps.navbarProps}
       >
         <Scene key="recipes" hideNavBar component={RecipesContainer} Layout={RecipesComponent} />
       </Stack>
         <Stack
           key="blender"
-          title="Blender"
+          title="Blenders"
           icon={() => <Icon name="ios-aperture-outline" {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="home" component={BlenderComponent} />
+          <Scene key="blenders" hideNavBar component={BlendersContainer} Layout={BlendersComponent} />
+          <Scene key="home" component={BlenderViewComponent} />
         </Stack>
 
         <Stack
           key="profile"
-          title="PROFILE"
-          icon={() => <Icon name="contact" {...DefaultProps.icons} />}
+          title="Dashboard"
+          icon={() => <Icon name="stats" {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
           <Scene key="profileHome" component={MemberContainer} Layout={ProfileComponent} />

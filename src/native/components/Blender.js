@@ -4,13 +4,11 @@ import Spacer from './Spacer';
 import { Image } from 'react-native';
 
 
-const Blender = () => {
+const BlenderView = () => {
   return(
     <Container>
       <Content padder>
-        <Spacer size={10} />
         <H1>Vitamix A3500</H1>
-        <Spacer size={10} />
         <Image source={{ uri: "https://www.williams-sonoma.com/wsimgs/ab/images/dp/wcm/201811/0004/vitamix-a3500-ascent-series-blender-candy-apple-red-c.jpg" }} style={{ height: 350, width: null, flex: 1 }} />
 
         <Spacer size={10} />
@@ -42,4 +40,4 @@ const Blender = () => {
   );
 };
 
-export default Blender;
+export default BlenderView;

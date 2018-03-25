@@ -1,49 +1,93 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, TouchableOpacity, RefreshControl, Image } from 'react-native';
-import { Container, Content, Card, CardItem, Body, Text, Button } from 'native-base';
+import { Container, Content, Card, CardItem, Body, Text, Button, H1 } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+import { SearchBar } from 'react-native-elements';
 import Loading from './Loading';
 import Error from './Error';
 import Header from './Header';
 import Spacer from './Spacer';
 
+class BlenderListing extends React.Component {
+  static propTypes = {
+    error: PropTypes.string,
+    loading: PropTypes.bool.isRequired,
+    blenders: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    reFetch: PropTypes.func,
+  }
 
-const BlenderListing = ({
-  error,
-  loading,
-  blenders,
-  reFetch,
-}) => {
+  static defaultProps = {
+    error: null,
+    reFetch: null,
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      blendersSearch: this.props.blenders
+    };
+
+  }
+  changeText = (e) =>{
+    //this.setState({blendersSearch: []});
+    var nbs = [];
+
+    this.props.blenders.forEach((b)=>{
+      if(b.title.toUpperCase().includes(e.toUpperCase())){
+        console.log(this.state.blendersSearch);
+        if(this.state.blendersSearch[0] === 'poop') nbs.pop('poop');
+        nbs.push(b);
+      }        
+    });
+
+    this.setState({blendersSearch:nbs});
+
+  
+    if(!e.length){
+      this.setState({blendersSearch: this.props.blenders});
+    }
+}
+  
+render(){
   // Loading
-  if (loading) return <Loading />;
-
+  if (this.props.loading) return <Loading />;
+  
   // Error
-  if (error) return <Error content={error} />;
-
+  if (this.props.error) return <Error content={error} />;
   const keyExtractor = item => item.id;
-  console.log(blenders);
-  const onPress = item => Actions.blender({ match: { params: { id: String(item.id) } } });
+  const onPress = item => Actions.home({ match: { params: { id: String(item.id) } } });
+  
 
   return (
     <Container>
       <Content padder>
-        <Header
-          title="Blenders"
-          content="__________________________________________________This is where the search is going to go. _________________________________________________"
-        />
-
+      <Spacer size={25} />
+      <H1>Blenders</H1>
+      <Spacer size={10} />
+        <SearchBar
+            ref={search => this.search = search}
+            lightTheme
+            round
+            containerStyle={{'padding': 0,'backgroundColor': 'transparent', 'borderTopWidth': 0, 'borderBottomWidth': 0 }}
+            onChangeText={this.changeText}
+            placeholder='Search'
+            onClear={()=>{}}
+            />
         <FlatList
           numColumns={2}
-          data={blenders}
+          data={this.state.blendersSearch}
+          extraData={
+            this.state
+          }
           renderItem={({ item }) => (
-            <Card transparent style={{ paddingHorizontal: 4 }}>
+            <Card transparent style={{ paddingHorizontal: 4, maxWidth: "50%" }}>
               <CardItem cardBody>
                 <TouchableOpacity onPress={() => onPress(item)} style={{ flex: 1 }}>
                   <Image
                     source={{ uri: item.image }}
                     style={{
-                      height: 100,
+                      height: 150,
                       width: null,
                       flex: 1,
                       borderRadius: 5,
@@ -54,7 +98,7 @@ const BlenderListing = ({
               <CardItem cardBody>
                 <Body>
                   <Spacer size={10} />
-                  <Text style={{ fontWeight: '800' }}>Vitamix Model</Text>
+                  <Text style={{ fontWeight: '800' }}>{item.title}</Text>
                   <Spacer size={15} />
                   <Spacer size={5} />
                 </Body>
@@ -64,8 +108,8 @@ const BlenderListing = ({
           keyExtractor={keyExtractor}
           refreshControl={
             <RefreshControl
-              refreshing={loading}
-              onRefresh={reFetch}
+              refreshing={this.props.loading}
+              onRefresh={this.props.reFetch}
             />
           }
         />
@@ -74,18 +118,20 @@ const BlenderListing = ({
       </Content>
     </Container>
   );
-};
+}
+}
 
-BlenderListing.propTypes = {
-  error: PropTypes.string,
-  loading: PropTypes.bool.isRequired,
-  blenders: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  reFetch: PropTypes.func,
-};
-
-BlenderListing.defaultProps = {
-  error: null,
-  reFetch: null,
-};
 
 export default BlenderListing;
+
+/*
+  import SearchBar from 'react-native-search-bar'
+
+  <SearchBar
+              ref='searchBar'
+              placeholder='Search'
+              onChangeText={()=>{}}
+              onSearchButtonPress={()=>{}}
+              onCancelButtonPress={()=>{}}
+            />
+*/

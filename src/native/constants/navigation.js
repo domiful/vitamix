@@ -17,6 +17,7 @@ export default {
     activeBackgroundColor: 'rgba(255,255,255,0.2)',
     inactiveBackgroundColor: Colors.brandPrimary,
     tabBarStyle: { backgroundColor: Colors.brandPrimary },
+    labelStyle: {color:'white', fontSize:11}
   },
 
   icons: {

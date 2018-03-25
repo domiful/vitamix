@@ -105,32 +105,30 @@ export function getRecipes() {
         'Content-Type': 'application/json'
       }
     };
-    var c = 0;
-    return dispatch => new Promise(resolve => axios
-      .get(recipesUrl, auth)
-      .then(function (response) {
-        c++;
-        var recipes = response.data((recipe)=>{
-          newRecipe = {
-            author:"", 
-            body:recipe.description,
-            category:recipe.name,
-            id:c,
-            title: recipe.title,
-            image: recipe.image_url,
-            ingredients:recipe.ingredients.split("#"),
-            method:recipe.instruction.split("#")
-          };
-        });
-        
-        return resolve(dispatch({
-          type: 'RECIPES_REPLACE',
-          data: recipes,
-        }));
-      })
-      .catch(function (error) {
-        console.log(error);
-        return "Something went wrong.";
-      });
-    );
+    
+    return dispatch => new Promise((resolve, reject) => axios
+        .post(recipesUrl,{'userId':'amy.marlin'} ,auth)
+        .then(function (response) {
+          var c = 0;
+          const recipes2 = response.data;
+          const recipeList = [];
+          recipes2.forEach((recipe2)=>{
+            c++;
+            var newRecipe = {
+              author:"", 
+              body:recipe2.description,
+              category:recipe2.name,
+              id:c,
+              title: recipe2.title,
+              image: recipe2.image_url,
+              ingredients:recipe2.ingredients.split("#"),
+              method:recipe2.instruction.split("#")
+            };
+            recipeList.push(newRecipe);
+          });
+          return resolve(dispatch({
+            type: 'RECIPES_REPLACE',
+            data: recipeList
+          }));
+        }).catch(reject)).catch(e => console.log(e));
 }

@@ -15,7 +15,7 @@ const Profile = ({ member, logout }) => (
           <View>
             <Content padder>
               <Header
-                title={`Hi ${member.firstName},`}
+                title="Dashboard"//{`Hi ${member.firstName},`}
                 content={`You are currently logged in as ${member.email}`}
               />
             </Content>
@@ -41,7 +41,7 @@ const Profile = ({ member, logout }) => (
           <View>
             <Content padder>
               <Header
-                title="Hi there, user"
+                title="Hi there, Amy"
                 content="where profile photo and info will go"
               />
             </Content>
