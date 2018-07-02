@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const url = "https://mcsdem012918-mcsdem012918.mobileenv.us2.oraclecloud.com:443";
-const aToken = "Basic YW15Lm1hcmxpbjpNb2JpbGUxKg==";
-const backID = "4c02156e-27fa-4da6-a3fa-9f0dd3063b37";
+const url = "https://104F633BF4F54958854A7AACCBB6BD06.uscom-central-1.oraclecloud.com:443";
+const aToken = "Basic amVmZi54LmRhdmllc0BvcmFjbGUuY29tOlZpNzdJdCEh";
+const backID = "639a7e91-7c91-40c3-8dd5-061d05ad87f4";
 
 
 export function getBlenders() {
@@ -18,6 +18,7 @@ export function getBlenders() {
         .get(blendersUrl,auth)
         .then(function (response) {
             var c = 0;
+            console.log(response);
           const blenders2 = response.data.blenders;
           const blenderList = [];
           blenders2.forEach((blender2)=>{

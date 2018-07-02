@@ -25,7 +25,9 @@ class BlenderListing extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      blendersSearch: this.props.blenders
+      blendersSearch: this.props.blenders,
+      refreshing: false
+
     };
 
   }
@@ -48,6 +50,16 @@ class BlenderListing extends React.Component {
       this.setState({blendersSearch: this.props.blenders});
     }
 }
+_onRefresh() {
+  console.log('aasdadasd');
+  this.setState({refreshing: true},()=>{
+    console.log('r');
+    this.props.reFetch().then(() => {
+      this.setState({refreshing: false});
+    });
+  });
+  
+}
   
 render(){
   // Loading
@@ -61,7 +73,14 @@ render(){
 
   return (
     <Container>
-      <Content padder>
+      <Content 
+      refreshControl={
+        <RefreshControl
+          refreshing={this.state.refreshing}
+          onRefresh={this._onRefresh.bind(this)}
+        />
+      }
+      padder>
       <Spacer size={25} />
       <H1>Blenders</H1>
       <Spacer size={10} />

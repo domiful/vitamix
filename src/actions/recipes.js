@@ -1,9 +1,12 @@
 import { Firebase, FirebaseRef } from '../lib/firebase';
 import axios from 'axios';
+import { Permissions, Notifications } from 'expo';
 
-const url = "https://mcsdem012918-mcsdem012918.mobileenv.us2.oraclecloud.com:443";
-const aToken = "Basic YW15Lm1hcmxpbjpNb2JpbGUxKg==";
-const backID = "4c02156e-27fa-4da6-a3fa-9f0dd3063b37";
+const PUSH_ENDPOINT = 'https://your-server.com/users/push-token';
+
+const url = "https://104F633BF4F54958854A7AACCBB6BD06.uscom-central-1.oraclecloud.com:443";
+const aToken = "Basic amVmZi54LmRhdmllc0BvcmFjbGUuY29tOlZpNzdJdCEh";
+const backID = "639a7e91-7c91-40c3-8dd5-061d05ad87f4";
 
 /**
   * Get this User's Favourite Recipes
@@ -97,7 +100,7 @@ export function getRecipes() {
 
 
 export function getRecipes() {
-    let recipesUrl = url + "/mobile/custom/VitamixCustomAPI/recipeData";
+    let recipesUrl = url + "/mobile/platform/storage/collections/Vitamix_Collection/objects/8e790386-7a87-4125-b114-3006c21de043";
     let auth = {
       headers: {
         "Authorization": aToken,
@@ -107,11 +110,12 @@ export function getRecipes() {
     };
     
     return dispatch => new Promise((resolve, reject) => axios
-        .post(recipesUrl,{'userId':'amy.marlin'} ,auth)
+        .get(recipesUrl, auth)
         .then(function (response) {
           var c = 0;
-          const recipes2 = response.data;
-          const recipeList = [];
+          var recipes2 = response.data;
+          //console.log(recipes2);
+          var recipeList = [];
           recipes2.forEach((recipe2)=>{
             c++;
             var newRecipe = {
@@ -122,7 +126,10 @@ export function getRecipes() {
               title: recipe2.title,
               image: recipe2.image_url,
               ingredients:recipe2.ingredients.split("#"),
-              method:recipe2.instruction.split("#")
+              method:recipe2.instruction.split("#"),
+              yield:recipe2.Yield.split("(")[0],
+              time:recipe2["Total Time"],
+              diff:recipe2.Difficulty,
             };
             recipeList.push(newRecipe);
           });
@@ -132,3 +139,63 @@ export function getRecipes() {
           }));
         }).catch(reject)).catch(e => console.log(e));
 }
+
+export async function registerForPushNotificationsAsync() {
+  const { status: existingStatus } = await Permissions.getAsync(
+    Permissions.NOTIFICATIONS
+  );
+  let finalStatus = existingStatus;
+
+  // only ask if permissions have not already been determined, because
+  // iOS won't necessarily prompt the user a second time.
+  if (existingStatus !== 'granted') {
+    // Android remote notification permissions are granted during the app
+    // install, so this will only ask on iOS
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    finalStatus = status;
+  }
+
+  // Stop here if the user did not grant permissions
+ // if (finalStatus !== 'granted') {
+   // return;
+  //}
+
+  // Get the token that uniquely identifies this device
+  let token = await Notifications.getExpoPushTokenAsync();
+  console.log(token);
+
+  /*// POST the token to your backend server from where you can retrieve it to send push notifications.
+  return fetch(PUSH_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      token: {
+        value: token,
+      },
+      user: {
+        username: 'Brent',
+      },
+    }),
+  });*/
+}
+
+
+
+//Code for server
+/*var server = http.createServer(function (request, response) {
+  var queryData = url.parse(request.url, true).query;
+
+  if (queryData.text) {
+    convert('engfemale1', queryData.text, response);
+    response.writeHead(200, {
+      'Content-Type': 'audio/mp3', 
+      'Content-Disposition': 'attachment; filename="tts.mp3"'
+    });
+  } 
+  else {
+    response.end('No text to convert.');
+  }
+}).listen(8080);*/
